@@ -4,11 +4,30 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: 20
+
+    - name: Cache Node.js modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies
+      run: npm install
+
     - name: Set the secrets
       uses: SpicyPizza/create-envfile@v1
       with:
@@ -16,7 +35,6 @@ jobs:
         envkey_LOCKED_USER: ${{ secrets.LOCKED_USER }}
         envkey_PASSWORD: ${{ secrets.PASSWORD }}
         file_name: .env
-    - name: Install dependencies
-      run: npm ci
-    - name: Run Cucumber tests
-      run: npx cucumber-js --config cucumber.mjs
+
+    - name: Run Cucumber
+      run: npx cucumber-js
