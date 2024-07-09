@@ -1,6 +1,8 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { By } from 'selenium-webdriver';
 import { expect } from 'chai';
+import * as dotenv from "dotenv";
+dotenv.config()
 
 Given('the user is on the login page', async function () {
     await this.driver.get('https://www.saucedemo.com/');
@@ -9,12 +11,12 @@ Given('the user is on the login page', async function () {
 When('the user enters the {string} user credentials', async function (user) {
     let username;
     if (user == "standard") {
-        username = "standard_user";
+        username = process.env.STANDARD_USER;
     } else if (user == "locked") {
-        username = "locked_out_user";
+        username = process.env.LOCKED_USER;
     }
     await this.driver.findElement(By.css('[data-test="username"]')).sendKeys(username);
-    await this.driver.findElement(By.css('[data-test="password"]')).sendKeys('');
+    await this.driver.findElement(By.css('[data-test="password"]')).sendKeys(process.env.PASSWORD);
     await this.driver.findElement(By.css('[data-test="login-button"]')).click();
 });
 

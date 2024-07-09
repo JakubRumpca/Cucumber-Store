@@ -9,6 +9,7 @@
   "dependencies": {
     "@cucumber/cucumber": "^10.8.0",
     "chai": "^5.1.1",
+    "dotenv": "^16.4.5",
     "selenium-webdriver": "^4.22.0"
   },
   "scripts": {
