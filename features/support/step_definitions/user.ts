@@ -2,7 +2,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from "@playwright/test";
 import { pageFixture } from "../pageFixture";
 import * as dotenv from "dotenv";
-dotenv.config()
+dotenv.config();
 
 Given('the user is on the login page', async function () {
     await pageFixture.page.goto('https://www.saucedemo.com/');
