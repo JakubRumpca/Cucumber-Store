@@ -16,7 +16,6 @@ When('the user goes to the shopping cart page', async function () {
 
 Then('the cart should contain {int} products', async function (number) {
     expect(await pageFixture.page.locator('[data-test="inventory-item"]').count()).toBe(number);
-
 });
 
 When('the user clicks on the {string} button', async function (button) {
